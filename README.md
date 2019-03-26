@@ -5,7 +5,7 @@
 3.3  [X] setcolor and getcolor                                                                                                         
 3.4  [X] callback/listener                                                                                                         
 3.5  [ ]                                                                                                         
-3.6  [ ]                                                                                                        
+3.6  [X] ColoredSeekBarFunction ( modified Seekbar)                                                                                                        
 3.7  [ ]                                                                                                        
 3.8  [ ]                                                                                                        
 3.9  [ ]                                                                                                        
