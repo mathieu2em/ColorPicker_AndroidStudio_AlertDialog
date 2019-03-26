@@ -14,9 +14,9 @@ import android.widget.SeekBar;
 import com.example.colorpicker.Views.AreaPicker;
 import com.example.colorpicker.Views.ColoredSeekBar;
 
-class ColorPickerDialog extends AlertDialog {
+public class ColorPickerDialog extends AlertDialog {
     private final static int MAX_RGB_VALUE = 255;
-    private final static int MAX_SV_VALUE = 100;
+    private final static int MAX_SV_VALUE = 100; //TODO pourquoi setMaxX et setMaxY changent la meme chose ?
     private final static int MAX_H_VALUE = 360;
 
     private AreaPicker seekSV;
@@ -69,11 +69,8 @@ class ColorPickerDialog extends AlertDialog {
 
         //Initialiser les boutons
         // le button_negative represente le cancel
-        setButton(BUTTON_NEGATIVE, "cancel", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> {
 
-            }
         });
 
         // Initialize SV gradient
@@ -154,11 +151,22 @@ class ColorPickerDialog extends AlertDialog {
         // Default color
         setColor(getContext().getColor(R.color.defaultColor));
 
-        //TODO regarder si on peut le sortir du init
         AreaPicker.OnPickedListener listener = (areaPicker, x, y, fromUser) -> {
             System.out.println(seekSV.getPickedX());
             System.out.println(seekSV.getPickedY());
             System.out.println(getColor());
+
+            // on store la conversion des valeurs de HSV modifiees et converties
+            int[] RGBcolor = HSVtoRGB( seekH.getH(), seekSV.getPickedX(), seekSV.getPickedY() );
+
+            //on ajuste la couleur de R G et B conjointement
+            /*TODO ici je ne change que leur valeur en H il faudra faire une fonction qui
+             *s'occupera de repositionner les curseurs et ajuster les gradients conjointement
+             */
+            seekR.setH(RGBcolor[0]);
+            seekG.setH(RGBcolor[1]);
+            seekB.setH(RGBcolor[2]);
+
         };
         seekSV.setOnPickedListener(listener);
     }
@@ -167,11 +175,10 @@ class ColorPickerDialog extends AlertDialog {
         /* IMPLÉMENTER CETTE MÉTHODE
          * Elle doit retourner la couleur présentement sélectionnée par le dialog.
          * */
-        int couleur = Color.rgb(r,g,b);
-        return couleur;
+
+        return Color.rgb(r,g,b);
     }
 
-    //test
     public void setColor(@ColorInt int newColor){
         /* IMPLÉMENTER CETTE MÉTHODE
          * Elle doit mettre à jour l'état du dialog pour que la couleur sélectionnée
@@ -276,19 +283,20 @@ class ColorPickerDialog extends AlertDialog {
         return HSV;
     }
 
-    public void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
+    private void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
 
         // button positive veut dire le ok
-        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        setButton(BUTTON_POSITIVE, "ok", (dialog, which) -> {
 
-                // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
-                onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
+            // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
+            onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
 
-            }
         });
 
+    }
+
+    public static int getMaxSvValue(){
+        return MAX_SV_VALUE;
     }
 
     public interface OnColorPickedListener{
