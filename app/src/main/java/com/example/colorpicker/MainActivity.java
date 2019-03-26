@@ -1,8 +1,11 @@
 package com.example.colorpicker;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.colorpicker.Views.ColoredSeekBar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
          dialog = new ColorPickerDialog(this, new ColorPickerDialog.OnColorPickedListener() {
              @Override
              public void onColorPicked(ColorPickerDialog colorPickerDialog, int color) {
-                 findViewById(R.id.picked_color).setBackgroundColor( color );
+                 findViewById(R.id.picked_color).setBackgroundColor(colorPickerDialog.getColor());
              }
          });
 
