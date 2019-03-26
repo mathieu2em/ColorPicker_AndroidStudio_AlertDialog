@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 
 public class ColoredSeekBar extends AppCompatSeekBar {
+
+    OnSeekBarChangeListener listener;
     GradientDrawable gd;
     private int h;
 
@@ -29,41 +31,46 @@ public class ColoredSeekBar extends AppCompatSeekBar {
     void init(){
 
         h = 0;
+
+        listener = new OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                h = getProgress();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        };
         setOnSeekBarChangeListener(listener);
 
     }
 
-    OnSeekBarChangeListener listener = new OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            h = getProgress();
-        }
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) { }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) { }
-    };
+    public void setColoredSeekBarListener(OnSeekBarChangeListener listener){
+        setOnSeekBarChangeListener(listener);
+    }
 
     // utile pour les valeurs initiales
     public void updateColor(int couleur){
         //int progress = getProgress();
         //gd.setColor(Color.rgb(progress, progress, progress));
         //Couleur en gradiant
-        int[] colorsR = {Color.parseColor("000000"), couleur};
+        int[] colorsR = {Color.BLACK, couleur};
 
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
         setProgressDrawable(gd);
     }
 
-    // utile pour la selection des couleurs
+    //TODO actuellement non fonctionnelle . utile pour la selection des couleurs
     public void updateColor(int couleur1, int couleur2){
-        //int progress = getProgress();
-        //gd.setColor(Color.rgb(progress, progress, progress));
+
+
         //Couleur en gradiant
-        int[] colorsR = {couleur1, couleur2};
+        int[] colorsR = {couleur1, couleur2}; // TODO a modifier
 
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
@@ -82,6 +89,10 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
     public int getH(){
         return h;
+    }
+
+    public void setH(int h){
+        this.h = h;
     }
 
 }

@@ -9,6 +9,7 @@ import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import com.example.colorpicker.Views.AreaPicker;
 import com.example.colorpicker.Views.ColoredSeekBar;
@@ -97,6 +98,9 @@ class ColorPickerDialog extends AlertDialog {
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
 
+        setColoredSeekBarListener(seekR, seekG, seekB);
+        setColoredSeekBarListener(seekG, seekR, seekB);
+        setColoredSeekBarListener(seekB, seekR, seekG);
 
 
         // Default color
@@ -117,6 +121,30 @@ class ColorPickerDialog extends AlertDialog {
          * */
         int couleur = Color.rgb(r,g,b);
         return couleur;
+    }
+
+    // methode pour setter les listeners et leurs callback respectifs des coloredSeekBar
+    private void setColoredSeekBarListener(ColoredSeekBar a, ColoredSeekBar b,ColoredSeekBar c){
+
+        a.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                a.setH( a.getProgress() );
+                b.updateColor(a.getProgress(), c.getProgress());
+                c.updateColor(a.getProgress(), b.getProgress());// TODO non fonctionnelle , j'Avais mal compris la question ; donc a modifier
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     //test
