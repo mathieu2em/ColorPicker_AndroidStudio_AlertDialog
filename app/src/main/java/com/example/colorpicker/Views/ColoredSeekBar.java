@@ -9,7 +9,7 @@ import android.widget.SeekBar;
 
 public class ColoredSeekBar extends AppCompatSeekBar {
 
-    OnSeekBarChangeListener listener;
+    private OnSeekBarChangeListener listener;
     GradientDrawable gd;
     private int h;
 
@@ -70,7 +70,7 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
 
         //Couleur en gradiant
-        int[] colorsR = {couleur1, couleur2}; // TODO a modifier
+        int[] colorsR = {couleur1, couleur2};
 
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);

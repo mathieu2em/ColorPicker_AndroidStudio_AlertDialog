@@ -76,9 +76,6 @@ class ColorPickerDialog extends AlertDialog {
             }
         });
 
-
-
-
         // Initialize SV gradient
         seekSV = v.findViewById(R.id.seekSV);
         saturationValueGradient = new SaturationValueGradient();
@@ -98,9 +95,40 @@ class ColorPickerDialog extends AlertDialog {
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
 
-        setColoredSeekBarListener(seekR, seekG, seekB);
-        setColoredSeekBarListener(seekG, seekR, seekB);
-        setColoredSeekBarListener(seekB, seekR, seekG);
+        // setting the respectives listeners of the 3 seekbars
+        seekR.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekG.updateColor(Color.rgb(seekR.getProgress(), seekG.getProgress(), seekB.getProgress()));
+                seekB.updateColor(Color.rgb(seekR.getProgress(), seekG.getH(), seekB.getH()));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+        seekG.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekR.updateColor(Color.rgb(seekR.getH(), seekG.getProgress(), seekB.getH()));
+                seekB.updateColor(Color.rgb(seekR.getH(), seekG.getProgress(), seekB.getH()));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+        seekB.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekR.updateColor(Color.rgb(seekR.getH(), seekG.getH(), seekB.getProgress()));
+                seekG.updateColor(Color.rgb(seekR.getH(), seekG.getH(), seekB.getProgress()));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
 
 
         // Default color
@@ -121,30 +149,6 @@ class ColorPickerDialog extends AlertDialog {
          * */
         int couleur = Color.rgb(r,g,b);
         return couleur;
-    }
-
-    // methode pour setter les listeners et leurs callback respectifs des coloredSeekBar
-    private void setColoredSeekBarListener(ColoredSeekBar a, ColoredSeekBar b,ColoredSeekBar c){
-
-        a.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                a.setH( a.getProgress() );
-                b.updateColor(a.getProgress(), c.getProgress());
-                c.updateColor(a.getProgress(), b.getProgress());// TODO non fonctionnelle , j'Avais mal compris la question ; donc a modifier
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
     }
 
     //test
