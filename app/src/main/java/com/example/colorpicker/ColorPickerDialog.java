@@ -185,19 +185,95 @@ class ColorPickerDialog extends AlertDialog {
 
     //dans le plan cartesien ,  s=x  et v=y
     static private int[] HSVtoRGB(int h, int s, int v){
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit convertir un trio de valeurs HSV à un trio de valeurs RGB
-         * */
 
-        return new int[3];
+        int HPrime = obtenirH() / 60;
+        int SPrime = optenirS() / 100;
+        int VPrime = optenirV() / 100;
+
+        int C = SPrime * VPrime;
+        int delta = VPrime - C;
+        int X = 1 - abs(HPrime%2 - 1);
+
+        int[] RGB = new int[3];
+
+        int RPrime;
+        int GPrime;
+        int BPrime;
+
+        switch(HPrime) {
+            case 0:
+                RPrime = 1;
+                GPrime = X;
+                BPrime = 0;
+                break;
+            case 1:
+                RPrime = 1;
+                GPrime = X;
+                BPrime = 0;
+                break;
+            case 2:
+                RPrime = X;
+                GPrime = 1;
+                BPrime = 0;
+                break;
+            case 3:
+                RPrime = 0;
+                GPrime = 1;
+                BPrime = X;
+                break;
+            case 4:
+                RPrime = 0;
+                GPrime = X;
+                BPrime = 1;
+                break;
+            case 5:
+                RPrime = X;
+                GPrime = 0;
+                BPrime = 1;
+                break;
+            case 6:
+                RPrime = 1;
+                GPrime = 0;
+                BPrime = X;
+                break;
+        }
+
+        RGB[0] = 255 * (C * RPrime + delta);
+        RGB[1] = 255 * (C * GPrime + delta);
+        RGB[2] = 255 * (C * BPrime + delta);
+
+        return RGB;
     }
 
     static private int[] RGBtoHSV(int r, int g, int b){
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit convertir un trio de valeurs RGB à un trio de valeurs HSL
-         * */
 
-        return new int[3];
+        //TODO possible faire methode pour le max de 3
+        int CMax = Math.max(Math.max(r,g),g);
+        int CMin = Math.min(Math.min(r,g),g);
+        int delta = CMax - CMin;
+
+        int[] HSV = new int[3];
+
+        //On calcule HPrime
+        if(CMax == r){
+            int HPrime = (g - b)/delta;
+        }else if(CMax == g){
+            int HPrime = 2 + (b - r)/delta;
+        }else{
+            int HPRime = 4 + (b - g) / delta;
+        }
+        //On calcule H
+        if(H >= 0){
+            HSV[0] = 60 * HPrime;
+        }else {
+            HSV[0] = 6 + HPrime;
+        }
+        HSV[1] = 100 * (delta/ CMax); //Le S
+        HSV[2] = 100 * (CMax/255);// et le V
+
+        //TODO methode pour prevoir les valeurs indeterminees;
+
+        return HSV;
     }
 
     public void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
