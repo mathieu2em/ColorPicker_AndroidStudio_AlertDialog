@@ -99,27 +99,38 @@ class ColorPickerDialog extends AlertDialog {
         seekR.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
                 seekR.setH(seekR.getProgress());
+
                 seekG.updateColor(Color.rgb(seekR.getProgress(), 0, seekB.getH()), Color.rgb(seekR.getProgress(), MAX_RGB_VALUE, seekB.getH()));
                 seekB.updateColor(Color.rgb(seekR.getProgress(),seekG.getH(), 0), Color.rgb(seekR.getProgress(), seekG.getH(), MAX_RGB_VALUE));
+
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+            }
         });
 
         seekG.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
                 seekG.setH(seekG.getProgress());
+
                 seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getH()), Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getH()));
                 seekB.updateColor(Color.rgb(seekR.getH(), seekG.getH(), 0), Color.rgb(seekR.getH(), seekG.getProgress(), MAX_RGB_VALUE));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+            }
         });
 
         seekB.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
@@ -133,7 +144,10 @@ class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+            }
         });
 
 
