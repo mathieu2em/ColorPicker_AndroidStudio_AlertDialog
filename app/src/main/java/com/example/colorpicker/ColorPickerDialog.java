@@ -14,9 +14,9 @@ import android.widget.SeekBar;
 import com.example.colorpicker.Views.AreaPicker;
 import com.example.colorpicker.Views.ColoredSeekBar;
 
-class ColorPickerDialog extends AlertDialog {
+public class ColorPickerDialog extends AlertDialog {
     private final static int MAX_RGB_VALUE = 255;
-    private final static int MAX_SV_VALUE = 100;
+    private final static int MAX_SV_VALUE = 100; //TODO pourquoi setMaxX et setMaxY changent la meme chose ?
     private final static int MAX_H_VALUE = 360;
 
     private AreaPicker seekSV;
@@ -69,11 +69,8 @@ class ColorPickerDialog extends AlertDialog {
 
         //Initialiser les boutons
         // le button_negative represente le cancel
-        setButton(BUTTON_NEGATIVE, "cancel", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> {
 
-            }
         });
 
         // Initialize SV gradient
@@ -159,6 +156,8 @@ class ColorPickerDialog extends AlertDialog {
             System.out.println(seekSV.getPickedX());
             System.out.println(seekSV.getPickedY());
             System.out.println(getColor());
+
+
         };
         seekSV.setOnPickedListener(listener);
     }
@@ -167,8 +166,8 @@ class ColorPickerDialog extends AlertDialog {
         /* IMPLÉMENTER CETTE MÉTHODE
          * Elle doit retourner la couleur présentement sélectionnée par le dialog.
          * */
-        int couleur = Color.rgb(r,g,b);
-        return couleur;
+
+        return Color.rgb(r,g,b);
     }
 
     public void setColor(@ColorInt int newColor){
@@ -199,19 +198,20 @@ class ColorPickerDialog extends AlertDialog {
         return new int[3];
     }
 
-    public void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
+    private void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
 
         // button positive veut dire le ok
-        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        setButton(BUTTON_POSITIVE, "ok", (dialog, which) -> {
 
-                // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
-                onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
+            // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
+            onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
 
-            }
         });
 
+    }
+
+    public static int getMaxSvValue(){
+        return MAX_SV_VALUE;
     }
 
     public interface OnColorPickedListener{

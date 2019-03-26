@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.example.colorpicker.ColorPickerDialog;
 import com.example.colorpicker.R;
 
 
@@ -23,6 +24,8 @@ public class AreaPicker extends View {
     private Paint thumb_paint;
 
     private float x, y;
+    private int maxX = ColorPickerDialog.getMaxSvValue();
+    private int maxY = ColorPickerDialog.getMaxSvValue();
 
     public AreaPicker(Context context) {
         super(context);
@@ -39,6 +42,7 @@ public class AreaPicker extends View {
         init();
     }
 
+    @SuppressLint("NewApi")
     private void init(){
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -59,6 +63,7 @@ public class AreaPicker extends View {
 
     }
 
+    @SuppressLint("NewApi")
     public void setInsetDrawable(Drawable dr){
         backgroundDrawable.setDrawable(dr);
     }
@@ -78,21 +83,21 @@ public class AreaPicker extends View {
     }
 
     public void setMaxX(int newMaxX){
-        //TODO
+        this.maxX = newMaxX;
+
     }
 
     public void setMaxY(int newMaxY){
-        //TODO
+        this.maxY = newMaxY;
     }
 
     // retourne une valeur de 0 a 100
     public int getPickedX(){
-        return (int)(x*100);
+        return (int)(x*maxX);
     }
 
     public int getPickedY(){
-
-        return (int)(y*100);
+        return (int)(y*maxY);
     }
 
     public void setPickedX(int newX){
