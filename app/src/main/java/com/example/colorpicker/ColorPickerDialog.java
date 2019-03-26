@@ -34,6 +34,16 @@ class ColorPickerDialog extends AlertDialog {
         init(context);
     }
 
+    // we have to implement the callback method . this method has to be independent of the Color-
+    // pickerDialog and will, in our case, put the color selected into the square of the main class
+
+    ColorPickerDialog(Context context, OnColorPickedListener callback){
+        super(context);
+        init(context);
+        setOnColorPickedListener(callback);
+
+    }
+
     ColorPickerDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         init(context);
@@ -64,13 +74,7 @@ class ColorPickerDialog extends AlertDialog {
 
             }
         });
-        // button positive veut dire le ok
-        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
 
 
 
@@ -143,10 +147,18 @@ class ColorPickerDialog extends AlertDialog {
     }
 
     public void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit enregistrer un "OnColorPickedListener", qui sera appelé, éventuellement,
-         * lorsque le bouton "ok" du dialog sera cliqué.
-         * */
+
+        // button positive veut dire le ok
+        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
+                onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
+
+            }
+        });
+
     }
 
     public interface OnColorPickedListener{

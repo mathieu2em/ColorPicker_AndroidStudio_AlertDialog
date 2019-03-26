@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
+    // technique pour aller le chercher vue en demo
+    public static ColorPickerDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
@@ -13,7 +17,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ColorPickerDialog dialog = new ColorPickerDialog(this);
+         dialog = new ColorPickerDialog(this, new ColorPickerDialog.OnColorPickedListener() {
+             @Override
+             public void onColorPicked(ColorPickerDialog colorPickerDialog, int color) {
+                 findViewById(R.id.picked_color).setBackgroundColor( color );
+             }
+         });
+
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
 }
