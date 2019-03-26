@@ -171,7 +171,6 @@ class ColorPickerDialog extends AlertDialog {
         return couleur;
     }
 
-    //test
     public void setColor(@ColorInt int newColor){
         /* IMPLÉMENTER CETTE MÉTHODE
          * Elle doit mettre à jour l'état du dialog pour que la couleur sélectionnée
