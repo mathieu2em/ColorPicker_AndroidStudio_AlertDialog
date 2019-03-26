@@ -46,11 +46,24 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         public void onStopTrackingTouch(SeekBar seekBar) { }
     };
 
+    // utile pour les valeurs initiales
     public void updateColor(int couleur){
         //int progress = getProgress();
         //gd.setColor(Color.rgb(progress, progress, progress));
         //Couleur en gradiant
-        int[] colorsR = {Color.parseColor("#000000"), couleur};
+        int[] colorsR = {Color.parseColor("000000"), couleur};
+
+        //Met le gradiant dans le seekBar
+        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
+        setProgressDrawable(gd);
+    }
+
+    // utile pour la selection des couleurs
+    public void updateColor(int couleur1, int couleur2){
+        //int progress = getProgress();
+        //gd.setColor(Color.rgb(progress, progress, progress));
+        //Couleur en gradiant
+        int[] colorsR = {couleur1, couleur2};
 
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);

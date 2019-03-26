@@ -97,6 +97,8 @@ class ColorPickerDialog extends AlertDialog {
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
 
+
+
         // Default color
         setColor(getContext().getColor(R.color.defaultColor));
 
