@@ -151,12 +151,21 @@ public class ColorPickerDialog extends AlertDialog {
         // Default color
         setColor(getContext().getColor(R.color.defaultColor));
 
-        //TODO regarder si on peut le sortir du init
         AreaPicker.OnPickedListener listener = (areaPicker, x, y, fromUser) -> {
             System.out.println(seekSV.getPickedX());
             System.out.println(seekSV.getPickedY());
             System.out.println(getColor());
 
+            // on store la conversion des valeurs de HSV modifiees et converties
+            int[] RGBcolor = HSVtoRGB( seekH.getH(), seekSV.getPickedX(), seekSV.getPickedY() );
+
+            //on ajuste la couleur de R G et B conjointement
+            /*TODO ici je ne change que leur valeur en H il faudra faire une fonction qui
+             *s'occupera de repositionner les curseurs et ajuster les gradients conjointement
+             */
+            seekR.setH(RGBcolor[0]);
+            seekG.setH(RGBcolor[1]);
+            seekB.setH(RGBcolor[2]);
 
         };
         seekSV.setOnPickedListener(listener);
