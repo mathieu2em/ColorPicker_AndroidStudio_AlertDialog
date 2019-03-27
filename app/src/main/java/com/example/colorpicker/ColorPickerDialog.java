@@ -190,6 +190,8 @@ public class ColorPickerDialog extends AlertDialog {
         seekR.updateColor(Color.rgb(0, RGBcolor[1], RGBcolor[2]), Color.rgb(MAX_RGB_VALUE, RGBcolor[1], RGBcolor[2]));
         seekG.updateColor(Color.rgb(RGBcolor[0], 0, RGBcolor[2]), Color.rgb(RGBcolor[0], MAX_RGB_VALUE, RGBcolor[2]));
         seekB.updateColor(Color.rgb(RGBcolor[0], RGBcolor[1], 0), Color.rgb(RGBcolor[0], RGBcolor[1], MAX_RGB_VALUE));
+
+        System.out.println("adjusted seek");
     }
 
     private void updateHSV(){
@@ -198,8 +200,7 @@ public class ColorPickerDialog extends AlertDialog {
         seekH.setProgress(HSVcolor[0]);
         seekSV.setPickedX(HSVcolor[1]);
         seekSV.setPickedY(HSVcolor[2]);
-
-        System.out.println(HSVcolor[0]+ " . " + HSVcolor[1] + " . " + HSVcolor[2]);
+        saturationValueGradient.setColor(Color.rgb(r,g,b));
     }
 
     @ColorInt int getColor(){
