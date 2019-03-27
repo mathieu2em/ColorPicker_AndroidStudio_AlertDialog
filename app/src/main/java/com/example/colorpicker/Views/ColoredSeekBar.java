@@ -62,10 +62,10 @@ public class ColoredSeekBar extends AppCompatSeekBar {
     }
 
 
-    public void setBarreH(){
+    public void setBarreH(int max){
         //Pour la barre seekH
         int[] colorsR = {Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN ,Color.BLUE, Color.MAGENTA,Color.RED};
-        setMax(360);
+        this.setMax(max);
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
         setProgressDrawable(gd);

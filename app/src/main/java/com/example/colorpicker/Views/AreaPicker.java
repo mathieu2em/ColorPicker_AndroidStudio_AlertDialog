@@ -44,8 +44,7 @@ public class AreaPicker extends View {
 
     @SuppressLint("NewApi")
     private void init(){
-        this.x=0;//TODO a verifier
-        this.y=0;
+
         setFocusable(true);
         setFocusableInTouchMode(true);
 
@@ -103,11 +102,16 @@ public class AreaPicker extends View {
     }
 
     public void setPickedX(int newX){
-        x = newX;
+
+        x = newX/maxX;
+        setX(x);
+
     }
 
     public void setPickedY(int newY){
-        y = newY;
+
+        y = newY/maxY;
+        setY(y);
     }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée

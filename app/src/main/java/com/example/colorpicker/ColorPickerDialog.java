@@ -87,7 +87,7 @@ public class ColorPickerDialog extends AlertDialog {
         seekG = v.findViewById(R.id.seekG);
         seekB = v.findViewById(R.id.seekB);
 
-        seekH.setBarreH();
+        seekH.setBarreH(MAX_H_VALUE);
         seekR.updateColor(Color.RED);
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
@@ -99,14 +99,13 @@ public class ColorPickerDialog extends AlertDialog {
                 
                 seekG.updateColor(Color.rgb(seekR.getProgress(), 0, seekB.getProgress()), Color.rgb(seekR.getProgress(), MAX_RGB_VALUE, seekB.getProgress()));
                 seekB.updateColor(Color.rgb(seekR.getProgress(),seekG.getProgress(), 0), Color.rgb(seekR.getProgress(), seekG.getProgress(), MAX_RGB_VALUE));
-
+                r = progress;
+                updateHSV();
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -116,13 +115,14 @@ public class ColorPickerDialog extends AlertDialog {
                 
                 seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getProgress()), Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getProgress()));
                 seekB.updateColor(Color.rgb(seekR.getProgress(), seekG.getProgress(), 0), Color.rgb(seekR.getProgress(), seekG.getProgress(), MAX_RGB_VALUE));
+                g = progress;
+                updateHSV();
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -132,13 +132,14 @@ public class ColorPickerDialog extends AlertDialog {
                 // actualise la valeur nommee "H" du seekBar //TODO renommer le H differemment
                 seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getProgress()) , Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getProgress()));
                 seekG.updateColor(Color.rgb( seekR.getProgress(), 0 , seekB.getProgress() ) , Color.rgb(seekR.getProgress(), MAX_RGB_VALUE , seekB.getProgress()));
+                b = progress;
+                updateHSV();
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -189,6 +190,14 @@ public class ColorPickerDialog extends AlertDialog {
         seekR.updateColor(Color.rgb(0, RGBcolor[1], RGBcolor[2]), Color.rgb(MAX_RGB_VALUE, RGBcolor[1], RGBcolor[2]));
         seekG.updateColor(Color.rgb(RGBcolor[0], 0, RGBcolor[2]), Color.rgb(RGBcolor[0], MAX_RGB_VALUE, RGBcolor[2]));
         seekB.updateColor(Color.rgb(RGBcolor[0], RGBcolor[1], 0), Color.rgb(RGBcolor[0], RGBcolor[1], MAX_RGB_VALUE));
+    }
+
+    private void updateHSV(){
+
+        int[] HSVcolor = RGBtoHSV(r,g,b);
+        seekH.setProgress(HSVcolor[0]);
+        seekSV.setPickedX(HSVcolor[1]);
+        seekSV.setPickedY(HSVcolor[2]);
     }
 
     @ColorInt int getColor(){
@@ -260,15 +269,15 @@ public class ColorPickerDialog extends AlertDialog {
         return RGB;
     }
 
-    static private int[] RGBtoHSV(int r, int g, int b){
+    static private int[] RGBtoHSV(double r, double g, double b){
 
-        int CMax = Math.max(Math.max(r,g),b);
-        int CMin = Math.min(Math.min(r,g),b);
-        int delta = CMax - CMin;
+        double CMax = Math.max(Math.max(r,g),b);
+        double CMin = Math.min(Math.min(r,g),b);
+        double delta = CMax - CMin;
 
         int[] HSV = new int[3];
 
-        int HPrime;
+        double HPrime;
 
         //On calcule HPrime
         if(CMax == r){
@@ -280,12 +289,12 @@ public class ColorPickerDialog extends AlertDialog {
         }
         //On calcule H
         if(HPrime >= 0){
-            HSV[0] = 60 * HPrime;
+            HSV[0] = (int) (60 * HPrime);
         }else {
-            HSV[0] = HPrime + 6;
+            HSV[0] = (int) (HPrime + 6);
         }
-        HSV[1] = 100 * (delta/ CMax); //Le S
-        HSV[2] = 100 * (CMax/255);// et le V
+        HSV[1] = (int) (100 * (delta/ CMax)); //Le S
+        HSV[2] = (int) (100 * (CMax/255));// et le V
 
         //TODO methode pour prevoir les valeurs indeterminees;
 
