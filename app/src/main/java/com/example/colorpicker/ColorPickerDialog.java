@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -149,7 +150,7 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 
-                saturationValueGradient.setColor(dialog.getColor());
+                saturationValueGradient.setColor(Color.GREEN);
 
             }
             @Override
@@ -198,7 +199,7 @@ public class ColorPickerDialog extends AlertDialog {
         seekH.setProgress(HSVcolor[0]);
         seekSV.setPickedX(HSVcolor[1]);
         seekSV.setPickedY(HSVcolor[2]);
-
+        //Log.i(tag, message)
         System.out.println(HSVcolor[0]+ " . " + HSVcolor[1] + " . " + HSVcolor[2]);
     }
 
