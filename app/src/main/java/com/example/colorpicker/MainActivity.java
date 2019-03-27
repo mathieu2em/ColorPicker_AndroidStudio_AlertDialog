@@ -7,7 +7,8 @@ import android.view.View;
 
 import com.example.colorpicker.Views.ColoredSeekBar;
 
-public class MainActivity extends AppCompatActivity {
+public class
+MainActivity extends AppCompatActivity {
 
     // technique pour aller le chercher vue en demo
     public static ColorPickerDialog dialog;

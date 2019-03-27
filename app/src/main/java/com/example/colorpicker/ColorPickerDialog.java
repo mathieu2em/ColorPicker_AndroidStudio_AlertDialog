@@ -199,7 +199,7 @@ public class ColorPickerDialog extends AlertDialog {
 
         int C = SPrime * VPrime;
         int delta = VPrime - C;
-        int X = 1 - Math.abs(( HPrime % 2 ) - 1);
+        int X = 1 - Math.abs(HPrime%2 - 1);
 
         int[] RGB = new int[3];
 
@@ -207,32 +207,43 @@ public class ColorPickerDialog extends AlertDialog {
         int GPrime = 0;
         int BPrime = 0;
 
-        if ( HPrime <= 1 && HPrime >= 0 ) {
-            RPrime = 1;
-            GPrime = X;
-            BPrime = 0;
-        } else if ( HPrime <= 2 ){
-            RPrime = X;
-            GPrime = 1;
-            BPrime = 0;
-        } else if ( HPrime <= 3){
-            RPrime = 0;
-            GPrime = 1;
-            BPrime = X;
-        } else if ( HPrime <= 4){
-            RPrime = 0;
-            GPrime = X;
-            BPrime = 1;
-        } else if ( HPrime <= 5){
-            RPrime = X;
-            GPrime = 0;
-            BPrime = 1;
-        } else if ( HPrime <= 6){
-            RPrime = 1;
-            GPrime = 0;
-            BPrime = X;
+        switch(HPrime) {
+            case 0:
+                RPrime = 1;
+                GPrime = X;
+                BPrime = 0;
+                break;
+            case 1:
+                RPrime = 1;
+                GPrime = X;
+                BPrime = 0;
+                break;
+            case 2:
+                RPrime = X;
+                GPrime = 1;
+                BPrime = 0;
+                break;
+            case 3:
+                RPrime = 0;
+                GPrime = 1;
+                BPrime = X;
+                break;
+            case 4:
+                RPrime = 0;
+                GPrime = X;
+                BPrime = 1;
+                break;
+            case 5:
+                RPrime = X;
+                GPrime = 0;
+                BPrime = 1;
+                break;
+            case 6:
+                RPrime = 1;
+                GPrime = 0;
+                BPrime = X;
+                break;
         }
-
 
         RGB[0] = 255 * (C * RPrime + delta);
         RGB[1] = 255 * (C * GPrime + delta);
