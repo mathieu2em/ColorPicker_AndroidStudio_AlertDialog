@@ -44,6 +44,8 @@ public class AreaPicker extends View {
 
     @SuppressLint("NewApi")
     private void init(){
+        this.x=0;//TODO a verifier
+        this.y=0;
         setFocusable(true);
         setFocusableInTouchMode(true);
 

@@ -147,6 +147,24 @@ public class ColorPickerDialog extends AlertDialog {
             }
         });
 
+        seekH.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                seekH.setH(seekH.getProgress());
+                updateSeekBarsColors();
+
+
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+            }
+        });
+
 
         // Default color
         setColor(getContext().getColor(R.color.defaultColor));
@@ -156,19 +174,28 @@ public class ColorPickerDialog extends AlertDialog {
             System.out.println(seekSV.getPickedY());
             System.out.println(getColor());
 
-            // on store la conversion des valeurs de HSV modifiees et converties
-            int[] RGBcolor = HSVtoRGB( seekH.getH(), seekSV.getPickedX(), seekSV.getPickedY() );
-
-            //on ajuste la couleur de R G et B conjointement
-            /*TODO ici je ne change que leur valeur en H il faudra faire une fonction qui
-             *s'occupera de repositionner les curseurs et ajuster les gradients conjointement
-             */
-            seekR.setH(RGBcolor[0]);
-            seekG.setH(RGBcolor[1]);
-            seekB.setH(RGBcolor[2]);
+            updateSeekBarsColors();
 
         };
         seekSV.setOnPickedListener(listener);
+    }
+
+
+
+    // cette methode update les couleurs des trois seekbars selon leur valeur actuelle
+    private void updateSeekBarsColors(){
+
+        // on store la conversion des valeurs de HSV modifiees et converties
+        int[] RGBcolor = HSVtoRGB( seekH.getH(), seekSV.getPickedX(), seekSV.getPickedY() );
+
+        //on ajuste la couleur de R G et B conjointement
+        seekR.setH(RGBcolor[0]);
+        seekG.setH(RGBcolor[1]);
+        seekB.setH(RGBcolor[2]);
+
+        seekR.updateColor(Color.rgb(0, RGBcolor[1], RGBcolor[2]), Color.rgb(MAX_RGB_VALUE, RGBcolor[1], RGBcolor[2]));
+        seekG.updateColor(Color.rgb(RGBcolor[0], 0, RGBcolor[2]), Color.rgb(RGBcolor[0], MAX_RGB_VALUE, RGBcolor[2]));
+        seekB.updateColor(Color.rgb(RGBcolor[0], RGBcolor[1], 0), Color.rgb(RGBcolor[0], RGBcolor[1], MAX_RGB_VALUE));
     }
 
     @ColorInt int getColor(){
@@ -191,21 +218,21 @@ public class ColorPickerDialog extends AlertDialog {
     }
 
     //dans le plan cartesien ,  s=x  et v=y
-    static private int[] HSVtoRGB(int h, int s, int v){
+    static private int[] HSVtoRGB(double h, double s, double v){
 
-        int HPrime = h / 60;
-        int SPrime = s / 100;
-        int VPrime = v / 100;
+        double HPrime = h / 60.0;
+        double SPrime = s / 100.0;
+        double VPrime = v / 100.0;
 
-        int C = SPrime * VPrime;
-        int delta = VPrime - C;
-        int X = 1 - Math.abs(( HPrime % 2 ) - 1);
+        double C = SPrime * VPrime;
+        double delta = VPrime - C;
+        double X = 1 - Math.abs(( HPrime % 2 ) - 1);
 
         int[] RGB = new int[3];
 
-        int RPrime = 0;
-        int GPrime = 0;
-        int BPrime = 0;
+        double RPrime = 0;
+        double GPrime = 0;
+        double BPrime = 0;
 
         if ( HPrime <= 1 && HPrime >= 0 ) {
             RPrime = 1;
@@ -233,16 +260,15 @@ public class ColorPickerDialog extends AlertDialog {
             BPrime = X;
         }
 
-        RGB[0] = 255 * (C * RPrime + delta);
-        RGB[1] = 255 * (C * GPrime + delta);
-        RGB[2] = 255 * (C * BPrime + delta);
+        RGB[0] = (int) (255 * (C * RPrime + delta));
+        RGB[1] = (int) (255 * (C * GPrime + delta));
+        RGB[2] = (int) (255 * (C * BPrime + delta));
 
         return RGB;
     }
 
     static private int[] RGBtoHSV(int r, int g, int b){
 
-        //TODO possible faire methode pour le max de 3
         int CMax = Math.max(Math.max(r,g),b);
         int CMin = Math.min(Math.min(r,g),b);
         int delta = CMax - CMin;
