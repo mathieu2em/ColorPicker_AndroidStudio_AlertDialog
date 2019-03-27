@@ -11,7 +11,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
     private OnSeekBarChangeListener listener;
     GradientDrawable gd;
-    private int h;
 
     public ColoredSeekBar(Context context) {
         super(context);
@@ -30,21 +29,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
     void init(){
 
-        h = 0;
-
-        listener = new OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                h = getProgress();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        };
-        setOnSeekBarChangeListener(listener);
 
     }
 
@@ -85,14 +69,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
         setProgressDrawable(gd);
-    }
-
-    public int getH(){
-        return h;
-    }
-
-    public void setH(int h){
-        this.h = h;
     }
 
 }

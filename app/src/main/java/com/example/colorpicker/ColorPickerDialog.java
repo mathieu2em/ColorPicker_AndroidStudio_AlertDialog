@@ -96,11 +96,9 @@ public class ColorPickerDialog extends AlertDialog {
         seekR.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                seekR.setH(seekR.getProgress());
-
-                seekG.updateColor(Color.rgb(seekR.getProgress(), 0, seekB.getH()), Color.rgb(seekR.getProgress(), MAX_RGB_VALUE, seekB.getH()));
-                seekB.updateColor(Color.rgb(seekR.getProgress(),seekG.getH(), 0), Color.rgb(seekR.getProgress(), seekG.getH(), MAX_RGB_VALUE));
+                
+                seekG.updateColor(Color.rgb(seekR.getProgress(), 0, seekB.getProgress()), Color.rgb(seekR.getProgress(), MAX_RGB_VALUE, seekB.getProgress()));
+                seekB.updateColor(Color.rgb(seekR.getProgress(),seekG.getProgress(), 0), Color.rgb(seekR.getProgress(), seekG.getProgress(), MAX_RGB_VALUE));
 
             }
             @Override
@@ -108,25 +106,23 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
         seekG.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                seekG.setH(seekG.getProgress());
-
-                seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getH()), Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getH()));
-                seekB.updateColor(Color.rgb(seekR.getH(), seekG.getH(), 0), Color.rgb(seekR.getH(), seekG.getProgress(), MAX_RGB_VALUE));
+                
+                seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getProgress()), Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getProgress()));
+                seekB.updateColor(Color.rgb(seekR.getProgress(), seekG.getProgress(), 0), Color.rgb(seekR.getProgress(), seekG.getProgress(), MAX_RGB_VALUE));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -134,26 +130,23 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // actualise la valeur nommee "H" du seekBar //TODO renommer le H differemment
-                seekB.setH(seekB.getProgress());
-                seekR.updateColor(Color.rgb(0, seekG.getH(), seekB.getProgress()) , Color.rgb(MAX_RGB_VALUE, seekG.getH(), seekB.getProgress()));
-                seekG.updateColor(Color.rgb( seekR.getH(), 0 , seekB.getProgress() ) , Color.rgb(seekR.getH(), MAX_RGB_VALUE , seekB.getProgress()));
+                seekR.updateColor(Color.rgb(0, seekG.getProgress(), seekB.getProgress()) , Color.rgb(MAX_RGB_VALUE, seekG.getProgress(), seekB.getProgress()));
+                seekG.updateColor(Color.rgb( seekR.getProgress(), 0 , seekB.getProgress() ) , Color.rgb(seekR.getProgress(), MAX_RGB_VALUE , seekB.getProgress()));
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
         seekH.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                seekH.setH(seekH.getProgress());
+                
                 updateSeekBarsColors();
-
 
             }
             @Override
@@ -161,7 +154,7 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                setColor(Color.rgb(seekR.getH(),seekG.getH(),seekB.getH()));
+                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -186,12 +179,12 @@ public class ColorPickerDialog extends AlertDialog {
     private void updateSeekBarsColors(){
 
         // on store la conversion des valeurs de HSV modifiees et converties
-        int[] RGBcolor = HSVtoRGB( seekH.getH(), seekSV.getPickedX(), seekSV.getPickedY() );
+        int[] RGBcolor = HSVtoRGB( seekH.getProgress(), seekSV.getPickedX(), seekSV.getPickedY() );
 
         //on ajuste la couleur de R G et B conjointement
-        seekR.setH(RGBcolor[0]);
-        seekG.setH(RGBcolor[1]);
-        seekB.setH(RGBcolor[2]);
+        seekR.setProgress(RGBcolor[0]);
+        seekG.setProgress(RGBcolor[1]);
+        seekB.setProgress(RGBcolor[2]);
 
         seekR.updateColor(Color.rgb(0, RGBcolor[1], RGBcolor[2]), Color.rgb(MAX_RGB_VALUE, RGBcolor[1], RGBcolor[2]));
         seekG.updateColor(Color.rgb(RGBcolor[0], 0, RGBcolor[2]), Color.rgb(RGBcolor[0], MAX_RGB_VALUE, RGBcolor[2]));
