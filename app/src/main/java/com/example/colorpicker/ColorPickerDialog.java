@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import com.example.colorpicker.Views.AreaPicker;
 import com.example.colorpicker.Views.ColoredSeekBar;
 
+import static com.example.colorpicker.MainActivity.dialog;
+
 public class ColorPickerDialog extends AlertDialog {
     private final static int MAX_RGB_VALUE = 255;
     private final static int MAX_SV_VALUE = 100; //TODO pourquoi setMaxX et setMaxY changent la meme chose ?
@@ -147,15 +149,13 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 
-                updateSeekBarsColors();
+                saturationValueGradient.setColor(dialog.getColor());
 
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-                setColor(Color.rgb(seekR.getProgress(),seekG.getProgress(),seekB.getProgress()));
             }
         });
 
@@ -198,6 +198,8 @@ public class ColorPickerDialog extends AlertDialog {
         seekH.setProgress(HSVcolor[0]);
         seekSV.setPickedX(HSVcolor[1]);
         seekSV.setPickedY(HSVcolor[2]);
+
+        System.out.println(HSVcolor[0]+ " . " + HSVcolor[1] + " . " + HSVcolor[2]);
     }
 
     @ColorInt int getColor(){
@@ -307,7 +309,7 @@ public class ColorPickerDialog extends AlertDialog {
         setButton(BUTTON_POSITIVE, "ok", (dialog, which) -> {
 
             // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
-            onColorPickedListener.onColorPicked( MainActivity.dialog , MainActivity.dialog.getColor() );
+            onColorPickedListener.onColorPicked(MainActivity.dialog, MainActivity.dialog.getColor() );
 
         });
 

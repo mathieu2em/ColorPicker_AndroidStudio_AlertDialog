@@ -101,17 +101,14 @@ public class AreaPicker extends View {
         return (int)(y*maxY);
     }
 
-    public void setPickedX(int newX){
+    public void setPickedX(float newX){
 
         x = newX/maxX;
-        setX(x);
-
     }
 
-    public void setPickedY(int newY){
+    public void setPickedY(float newY){
 
         y = newY/maxY;
-        setY(y);
     }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée
