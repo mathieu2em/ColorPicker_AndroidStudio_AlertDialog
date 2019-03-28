@@ -176,7 +176,13 @@ public class ColorPickerDialog extends AlertDialog {
             }
         };
         seekSV.setOnPickedListener(listener);
+
+        // ici, on set la position initiale a noire.
+        seekSV.setPickedX(0);
+        seekSV.setPickedY(0);
+        //couleur initiale a rouge
         seekH.setProgress(0);
+
         updateSeekBarsColors();
         updateHSV();
 
