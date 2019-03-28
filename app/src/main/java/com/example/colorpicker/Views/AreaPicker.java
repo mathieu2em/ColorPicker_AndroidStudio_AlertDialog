@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -103,12 +104,14 @@ public class AreaPicker extends View {
 
     public void setPickedX(float newX){
 
-        x = newX/maxX;
+        x = (newX/maxX);
+        Log.i("setPickedX", ""+x);
     }
 
     public void setPickedY(float newY){
 
-        y = newY/maxY;
+        y = 1-(newY/maxY);
+        Log.i("setpickedy", ""+y);
     }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée
