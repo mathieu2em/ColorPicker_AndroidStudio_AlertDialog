@@ -1,8 +1,8 @@
 package com.example.colorpicker;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.util.Log;
@@ -26,6 +26,7 @@ public class ColorPickerDialog extends AlertDialog {
     private ColoredSeekBar seekB;
 
     private SaturationValueGradient saturationValueGradient;
+    private OnColorPickedListener listener;
 
     // Représentation/stockage interne de la couleur présentement sélectionnée par le Dialog.
     private int r=0, g=0, b=0;
@@ -35,14 +36,10 @@ public class ColorPickerDialog extends AlertDialog {
         init(context);
     }
 
-    // we have to implement the callback method . this method has to be independent of the Color-
-    // pickerDialog and will, in our case, put the color selected into the square of the main class
-
     ColorPickerDialog(Context context, OnColorPickedListener callback){
         super(context);
         init(context);
         setOnColorPickedListener(callback);
-
     }
 
     ColorPickerDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
@@ -55,12 +52,10 @@ public class ColorPickerDialog extends AlertDialog {
         init(context);
     }
 
-    @SuppressLint({"WrongViewCast", "NewApi"})
     private void init(Context context){
         /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
 
         // Initialize dialog
-        @SuppressLint("InflateParams")
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_picker,null);
         setView(v);
 
@@ -69,8 +64,14 @@ public class ColorPickerDialog extends AlertDialog {
 
         //Initialiser les boutons
         // le button_negative represente le cancel
-        setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> {
+        setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> { });
 
+        // button positive veut dire le ok
+        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                listener.onColorPicked((ColorPickerDialog) dialog, getColor());
+            }
         });
 
         // Initialize SV gradient
@@ -87,11 +88,15 @@ public class ColorPickerDialog extends AlertDialog {
         seekG = v.findViewById(R.id.seekG);
         seekB = v.findViewById(R.id.seekB);
 
+        // seekH gradient setting
         seekH.setBarreH(MAX_H_VALUE);
+
+        // seekbar Gradients
         seekR.updateColor(Color.RED);
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
 
+        // setting maximal values of differents seekRGBs
         seekR.setMax(MAX_RGB_VALUE);
         seekG.setMax(MAX_RGB_VALUE);
         seekB.setMax(MAX_RGB_VALUE);
@@ -127,9 +132,7 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         seekB.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
@@ -146,9 +149,7 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
         seekH.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
@@ -162,13 +163,8 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
-
-
-        // Default color
-        setColor(getContext().getColor(R.color.defaultColor));
 
         AreaPicker.OnPickedListener listener = (areaPicker, x, y, fromUser) -> {
             if (fromUser) {
@@ -180,6 +176,7 @@ public class ColorPickerDialog extends AlertDialog {
         // ici, on set la position initiale a noire.
         seekSV.setPickedX(0);
         seekSV.setPickedY(0);
+
         //couleur initiale a rouge
         seekH.setProgress(0);
 
@@ -324,19 +321,10 @@ public class ColorPickerDialog extends AlertDialog {
         HSV[2] = (int) (MAX_SV_VALUE * (CMax / MAX_RGB_VALUE));// et le V
 
         return HSV;
-
     }
 
     private void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
-
-        // button positive veut dire le ok
-        setButton(BUTTON_POSITIVE, "ok", (dialog, which) -> {
-
-            // lorsqu'on clic ca applique la methode donnee lors de la creation du constructeur
-            onColorPickedListener.onColorPicked(MainActivity.dialog, MainActivity.dialog.getColor() );
-
-        });
-
+        listener = onColorPickedListener;
     }
 
     public static int getMaxSvValue(){
