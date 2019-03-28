@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
+import android.graphics.Color;
 
 public class ColoredSeekBar extends AppCompatSeekBar {
 
@@ -68,6 +69,16 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         this.setMax(max);
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
+        setProgressDrawable(gd);
+    }
+
+    public void setAlpha(int max){
+        //Pour la barre seekH
+        int[] colorsR = {Color.parseColor("#00000000"),Color.parseColor("#FF000000") };
+        this.setMax(max);
+        //Met le gradiant dans le seekBar
+        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
+        gd.s
         setProgressDrawable(gd);
     }
 

@@ -18,12 +18,14 @@ public class ColorPickerDialog extends AlertDialog {
     private final static int MAX_RGB_VALUE = 255;
     private final static int MAX_SV_VALUE = 100; //TODO pourquoi setMaxX et setMaxY changent la meme chose ?
     private final static int MAX_H_VALUE = 360;
+    private final static int MAX_A_VALUE = 255;
 
     private AreaPicker seekSV;
     private static ColoredSeekBar seekH;
     private ColoredSeekBar seekR;
     private ColoredSeekBar seekG;
     private ColoredSeekBar seekB;
+    private ColoredSeekBar seekA;
 
     private SaturationValueGradient saturationValueGradient;
     private OnColorPickedListener listener;
@@ -83,11 +85,14 @@ public class ColorPickerDialog extends AlertDialog {
         seekR = v.findViewById(R.id.seekR);
         seekG = v.findViewById(R.id.seekG);
         seekB = v.findViewById(R.id.seekB);
+        seekA = v.findViewById(R.id.seekA);
 
         // seekH gradient setting
         seekH.setBarreH(MAX_H_VALUE);
 
         // seekbar Gradients
+        seekA.setAlpha(MAX_A_VALUE);
+
         seekR.updateColor(Color.RED);
         seekG.updateColor(Color.GREEN);
         seekB.updateColor(Color.BLUE);
@@ -161,6 +166,21 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
+
+        seekA.setColoredSeekBarListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        // Default color
+        setColor(getContext().getColor(R.color.defaultColor));
 
         AreaPicker.OnPickedListener listener = (areaPicker, x, y, fromUser) -> {
             if (fromUser) {
