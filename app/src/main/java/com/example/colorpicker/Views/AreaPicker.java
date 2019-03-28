@@ -25,7 +25,7 @@ public class AreaPicker extends View {
     private Paint thumb_paint;
 
     private float x, y;
-    private int maxX = ColorPickerDialog.getMaxSvValue();
+    private int maxX = ColorPickerDialog.getMaxSvValue();//TODO LES ENFANTS CONNAISSENT PAS LEURS PARENTS TABARNAK
     private int maxY = ColorPickerDialog.getMaxSvValue();
 
     public AreaPicker(Context context) {

@@ -25,7 +25,6 @@ MainActivity extends AppCompatActivity {
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
             findViewById(R.id.picked_color).setBackgroundColor(colorPickerDialog.getColor()));
 
-
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
 }
