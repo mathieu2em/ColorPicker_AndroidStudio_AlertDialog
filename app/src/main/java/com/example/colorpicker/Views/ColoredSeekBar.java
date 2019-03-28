@@ -1,8 +1,6 @@
 package com.example.colorpicker.Views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -11,18 +9,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
-import android.widget.SeekBar;
 
 import com.example.colorpicker.R;
 
 public class ColoredSeekBar extends AppCompatSeekBar {
 
-    private OnSeekBarChangeListener listener;
-    private Drawable[] drawables;
-    private LayerDrawable layerDrawable;
     private GradientDrawable gd;
 
     public ColoredSeekBar(Context context) {
@@ -62,7 +55,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
     // S'applique aux cas RGB ET A
     // pour Alpha, nous aurions pu faire une methode avec un seul parametre, mais nous avons choisis , du fait
     // que cette methode fonctionne aussi pour Alpha avec les bons parametres , de ne pas creer une methode supplementaire.
-    @SuppressLint("NewApi")
     public void updateColor(int couleur1, int couleur2){
 
         //Couleur en gradiant
@@ -82,7 +74,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         setProgressDrawable(gd);
     }
 
-    @SuppressLint("NewApi")
     public void updateBarreA(int max, int r, int g, int b){
 
         //Couleur en gradiant
@@ -99,12 +90,12 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
         // plug les deux dans un tableau
-        drawables = new Drawable[2];
+        Drawable[] drawables = new Drawable[2];
         drawables[0] = bitmapDrawable;
         drawables[1] = gd;
 
         //convertis le tableau en layerDrawables.
-        layerDrawable = new LayerDrawable(drawables);
+        LayerDrawable layerDrawable = new LayerDrawable(drawables);
         setProgressDrawable(layerDrawable);
     }
 

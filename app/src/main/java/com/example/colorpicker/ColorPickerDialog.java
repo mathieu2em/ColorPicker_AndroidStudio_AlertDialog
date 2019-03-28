@@ -32,11 +32,6 @@ public class ColorPickerDialog extends AlertDialog {
     // Représentation/stockage interne de la couleur présentement sélectionnée par le Dialog.
     private int a=255, r=0, g=0, b=0;
 
-    ColorPickerDialog(Context context) {
-        super(context);
-        init(context);
-    }
-
     ColorPickerDialog(Context context, OnColorPickedListener callback){
         super(context);
         init(context);
