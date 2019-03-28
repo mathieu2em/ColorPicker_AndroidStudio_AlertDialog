@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -90,18 +93,18 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         //set le gradient
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
 
-        //set l'image
-        Resources res = getResources();
-        Drawable drawable = ResourcesCompat.getDrawable(res, R.drawable.checkers, null);
+        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), 70,70 ,false);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
         // plug les deux dans un tableau
         drawables = new Drawable[2];
-        drawables[0] = drawable;
+        drawables[0] = bitmapDrawable;
         drawables[1] = gd;
 
         //convertis le tableau en layerDrawables.
         layerDrawable = new LayerDrawable(drawables);
-        setProgressDrawableTiled(layerDrawable);
+        setProgressDrawable(layerDrawable);
     }
 
 }

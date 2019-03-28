@@ -1,7 +1,17 @@
 package com.example.colorpicker;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,9 +32,29 @@ MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // comme demandé dans l'annonce
+        findViewById(R.id.picked_color).setBackgroundColor(Color.BLACK);
+
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
             findViewById(R.id.picked_color).setBackgroundColor(colorPickerDialog.getColor()));
 
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
+    }
+
+    private void setPickedColor(int color){
+        //set le gradient
+
+        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), 70,70 ,false); //TODO
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
+
+        // plug les deux dans un tableau
+        Drawable[] drawables = new Drawable[2];
+        drawables[0] = bitmapDrawable;
+        drawables[1] = new ColorDrawable(color);
+
+        //convertis le tableau en layerDrawables.
+        LayerDrawable layerDrawable = new LayerDrawable(drawables);
+        findViewById(R.id.picked_color).setBackgroundDrawable(layerDrawable);
     }
 }

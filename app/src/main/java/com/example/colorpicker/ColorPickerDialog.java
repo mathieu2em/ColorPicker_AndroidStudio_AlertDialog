@@ -30,7 +30,7 @@ public class ColorPickerDialog extends AlertDialog {
     private OnColorPickedListener listener;
 
     // Représentation/stockage interne de la couleur présentement sélectionnée par le Dialog.
-    private int a=0, r=0, g=0, b=0;
+    private int a=255, r=0, g=0, b=0;
 
     ColorPickerDialog(Context context) {
         super(context);
@@ -238,7 +238,7 @@ public class ColorPickerDialog extends AlertDialog {
         /* IMPLÉMENTER CETTE MÉTHODE
          * Elle doit retourner la couleur présentement sélectionnée par le dialog.
          * */
-        return Color.rgb(r,g,b);
+        return Color.argb(a,r,g,b);
     }
 
     public void setColor(@ColorInt int newColor){
