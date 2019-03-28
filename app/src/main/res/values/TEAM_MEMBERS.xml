@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="teammate1"> "Philippe Auclair" </string>
+    <string name="teammate2"> "N'Goc Phong" </string>
+    <string name="teammate3"> "Mathieu Perron" </string>
+    <string name="ONE_LOVE" > "Android-Studio" </string>
+</resources>
