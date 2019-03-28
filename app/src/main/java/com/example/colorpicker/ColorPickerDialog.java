@@ -67,12 +67,8 @@ public class ColorPickerDialog extends AlertDialog {
         setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> { });
 
         // button positive veut dire le ok
-        setButton(BUTTON_POSITIVE, "ok", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onColorPicked((ColorPickerDialog) dialog, getColor());
-            }
-        });
+        setButton(BUTTON_POSITIVE, "ok", (dialog, which) ->
+                listener.onColorPicked((ColorPickerDialog) dialog, getColor()));
 
         // Initialize SV gradient
         seekSV = v.findViewById(R.id.seekSV);
