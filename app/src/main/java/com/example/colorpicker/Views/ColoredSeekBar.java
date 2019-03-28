@@ -78,7 +78,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         this.setMax(max);
         //Met le gradiant dans le seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
-        gd.s
         setProgressDrawable(gd);
     }
 
