@@ -36,7 +36,7 @@ MainActivity extends AppCompatActivity {
         findViewById(R.id.picked_color).setBackgroundColor(Color.BLACK);
 
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
-            findViewById(R.id.picked_color).setBackgroundColor(colorPickerDialog.getColor()));
+            setPickedColor(dialog.getColor()));
 
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
@@ -44,7 +44,9 @@ MainActivity extends AppCompatActivity {
     private void setPickedColor(int color){
         //set le gradient
 
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), 70,70 ,false); //TODO
+        int tileSize = getResources().getInteger(R.integer.tileSize);
+
+        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), tileSize,tileSize ,false);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 

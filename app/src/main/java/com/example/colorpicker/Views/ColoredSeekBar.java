@@ -40,9 +40,7 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         init();
     }
 
-    void init(){ //TODO overloading setMax
-
-    }
+    void init(){ }
 
 
     public void setColoredSeekBarListener(OnSeekBarChangeListener listener){
@@ -93,7 +91,10 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         //set le gradient
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
 
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), 70,70 ,false);
+
+        int tileSize = getResources().getInteger(R.integer.tileSize);
+
+        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers),tileSize,tileSize,false);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 

@@ -90,7 +90,7 @@ public class ColorPickerDialog extends AlertDialog {
         seekH.setBarreH(MAX_H_VALUE);
 
         // seekA gradient setting
-        seekA.updateBarreA(MAX_ARGB_VALUE,r,g,b);//TODO
+        seekA.updateBarreA(MAX_ARGB_VALUE,r,g,b);
 
         // seekbar Gradients
         seekR.updateColor(Color.RED);
@@ -145,7 +145,6 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if(fromUser){
-                    // actualise la valeur nommee "H" du seekBar //TODO renommer le H differemment
                     seekR.updateColor(Color.rgb(0, g, progress), Color.rgb(MAX_ARGB_VALUE, g, progress));
                     seekG.updateColor(Color.rgb(r, 0, progress), Color.rgb(r, MAX_ARGB_VALUE, progress));
                     seekA.updateBarreA(MAX_ARGB_VALUE,r,g,progress);
