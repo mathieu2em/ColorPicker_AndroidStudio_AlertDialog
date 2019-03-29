@@ -1,6 +1,5 @@
 package com.example.colorpicker.Views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,12 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.SeekBar;
-
-import com.example.colorpicker.ColorPickerDialog;
 import com.example.colorpicker.R;
 
 
@@ -25,8 +20,9 @@ public class AreaPicker extends View {
     private Paint thumb_paint;
 
     private float x, y;
-    private int maxX = ColorPickerDialog.getMaxSvValue();//TODO LES ENFANTS CONNAISSENT PAS LEURS PARENTS TABARNAK
-    private int maxY = ColorPickerDialog.getMaxSvValue();
+    // this is the default value but can be changed using setMaxX and setMaxY
+    private int maxX=100;
+    private int maxY=100;
 
     public AreaPicker(Context context) {
         super(context);
@@ -43,9 +39,7 @@ public class AreaPicker extends View {
         init();
     }
 
-    @SuppressLint("NewApi")
     private void init(){
-
         setFocusable(true);
         setFocusableInTouchMode(true);
 
@@ -62,15 +56,12 @@ public class AreaPicker extends View {
         // sélection puisse déborder du plan de sélection sans déborder du View.
         backgroundDrawable = new InsetDrawable(new GradientDrawable(), padding);
         setBackground(backgroundDrawable);
-
     }
 
-    @SuppressLint("NewApi")
     public void setInsetDrawable(Drawable dr){
         backgroundDrawable.setDrawable(dr);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) {
@@ -93,26 +84,16 @@ public class AreaPicker extends View {
         this.maxY = newMaxY;
     }
 
-    // retourne une valeur de 0 a 100
-    public int getPickedX(){
-        return (int)(x*maxX);
-    }
+    // returns values from 0 to maxX
+    public int getPickedX(){ return (int)(x*maxX); }
 
     public int getPickedY(){
         return (int)(y*maxY);
     }
 
-    public void setPickedX(float newX){
+    public void setPickedX(float newX){ x = (newX/maxX); }
 
-        x = (newX/maxX);
-        Log.i("setPickedX", ""+x);
-    }
-
-    public void setPickedY(float newY){
-
-        y = 1-(newY/maxY);
-        Log.i("setpickedy", ""+y);
-    }
+    public void setPickedY(float newY){ y = 1-(newY/maxY); }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée
     // représentée par cet AreaPicker a été mise à jour. (Bref, dès que this.x et/ou this.y a
@@ -121,7 +102,6 @@ public class AreaPicker extends View {
         if(onPickedListener != null){
             onPickedListener.onPicked(this, getPickedX(), getPickedY(), fromUser);
         }
-
         invalidate();
     }
 

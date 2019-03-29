@@ -20,81 +20,61 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
     public ColoredSeekBar(Context context) {
         super(context);
-        init();
     }
 
     public ColoredSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public ColoredSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
-
-    void init(){ }
-
 
     public void setColoredSeekBarListener(OnSeekBarChangeListener listener){
         setOnSeekBarChangeListener(listener);
     }
 
-    // utile pour les valeurs initiales
-    public void updateColor(int couleur){
-        //int progress = getProgress();
-        //gd.setColor(Color.rgb(progress, progress, progress));
-        //Couleur en gradiant
-        int[] colorsR = {Color.BLACK, couleur};
-
-        //Met le gradiant dans le seekBar
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
-        setProgressDrawable(gd);
-    }
-
-    // S'applique aux cas RGB ET A
-    // pour Alpha, nous aurions pu faire une methode avec un seul parametre, mais nous avons choisis , du fait
-    // que cette methode fonctionne aussi pour Alpha avec les bons parametres , de ne pas creer une methode supplementaire.
+    // applie to RGB cases
     public void updateColor(int couleur1, int couleur2){
 
-        //Couleur en gradiant
+        // color in gradient
         int[] colorsR = {couleur1, couleur2};
 
-        //Met le gradiant dans le seekBar
+        // puts the gradient in the seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
         setProgressDrawable(gd);
     }
 
+    // this is the method to implements the Hue seekBar
     public void setBarreH(int max){
-        //Pour la barre seekH
+
         int[] colorsR = {Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN ,Color.BLUE, Color.MAGENTA,Color.RED};
         this.setMax(max);
-        //Met le gradiant dans le seekBar
+        //puts the gradient in the seekBar
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
         setProgressDrawable(gd);
     }
 
     public void updateBarreA(int max, int r, int g, int b){
 
-        //Couleur en gradiant
+        // Color in gradient
         int[] colorsR = {Color.argb(0,r,g,b), Color.argb(max,r,g,b)};
 
-        //set le gradient
+        // set the gradient
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
-
 
         int tileSize = getResources().getInteger(R.integer.tileSize);
 
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers),tileSize,tileSize,false);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        Bitmap bitmap =  BitmapFactory.decodeResource(getResources(),R.drawable.checkers);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
-        // plug les deux dans un tableau
+        // put the drawables in an array
         Drawable[] drawables = new Drawable[2];
         drawables[0] = bitmapDrawable;
         drawables[1] = gd;
 
-        //convertis le tableau en layerDrawables.
+        // convert the array into a layerDrawables.
         LayerDrawable layerDrawable = new LayerDrawable(drawables);
         setProgressDrawable(layerDrawable);
     }

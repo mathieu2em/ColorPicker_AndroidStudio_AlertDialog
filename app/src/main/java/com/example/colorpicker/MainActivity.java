@@ -1,6 +1,4 @@
 package com.example.colorpicker;
-
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Shader;
@@ -15,42 +13,38 @@ import android.view.View;
 public class
 MainActivity extends AppCompatActivity {
 
-    // technique pour aller le chercher vue en demo
     public ColorPickerDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // comme demandé dans l'annonce
         findViewById(R.id.picked_color).setBackgroundColor(Color.BLACK);
 
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
-            setPickedColor(dialog.getColor()));
+                setPickedColor(dialog.getColor()));
 
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
 
+    // this method works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
     private void setPickedColor(int color){
-        //set le gradient
 
-        int tileSize = getResources().getInteger(R.integer.tileSize);
+        // creates the bitmap drawable containing the bitmap image
+        BitmapDrawable bitmapDrawable = new BitmapDrawable( getResources(),
+                BitmapFactory.decodeResource(getResources(),R.drawable.checkers));
 
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), tileSize,tileSize ,false);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        // this method is necessary if we want the good image size and tiled mode
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
-        // plug les deux dans un tableau
+        // plug both Drawables in an array
         Drawable[] drawables = new Drawable[2];
         drawables[0] = bitmapDrawable;
         drawables[1] = new ColorDrawable(color);
 
-        //convertis le tableau en layerDrawables.
-        LayerDrawable layerDrawable = new LayerDrawable(drawables);
-        findViewById(R.id.picked_color).setBackgroundDrawable(layerDrawable);
+        //convert the Drawable array into LayerDrawable and insert it as a background
+        findViewById(R.id.picked_color).setBackground(new LayerDrawable(drawables));
     }
 }
