@@ -1,5 +1,4 @@
 package com.example.colorpicker;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,18 +14,14 @@ import android.view.View;
 public class
 MainActivity extends AppCompatActivity {
 
-    // technique pour aller le chercher vue en demo
     public ColorPickerDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // comme demandé dans l'annonce
         findViewById(R.id.picked_color).setBackgroundColor(Color.BLACK);
 
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
@@ -35,11 +30,12 @@ MainActivity extends AppCompatActivity {
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
 
+    // this method works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
     private void setPickedColor(int color){
-        //set le gradient
 
+        //  tileSize is defined globally
         int tileSize = getResources().getInteger(R.integer.tileSize);
-
+        // hacky method to make the image the correct size
         Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), tileSize,tileSize ,false);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
