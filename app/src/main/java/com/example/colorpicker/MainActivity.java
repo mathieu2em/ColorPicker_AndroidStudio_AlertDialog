@@ -1,5 +1,4 @@
 package com.example.colorpicker;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Shader;
@@ -33,11 +32,9 @@ MainActivity extends AppCompatActivity {
     // this method works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
     private void setPickedColor(int color){
 
-        //  tileSize is defined globally
-        int tileSize = getResources().getInteger(R.integer.tileSize);
-        // hacky method to make the image the correct size
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), tileSize,tileSize ,false);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable( getResources(), bitmap);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable( getResources(),
+                BitmapFactory.decodeResource(getResources(),R.drawable.checkers));
+
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
         // plug les deux dans un tableau

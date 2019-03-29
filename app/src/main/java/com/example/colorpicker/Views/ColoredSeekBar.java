@@ -20,21 +20,15 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
     public ColoredSeekBar(Context context) {
         super(context);
-        init();
     }
 
     public ColoredSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public ColoredSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
-
-    void init(){ }
-
 
     public void setColoredSeekBarListener(OnSeekBarChangeListener listener){
         setOnSeekBarChangeListener(listener);
@@ -71,7 +65,7 @@ public class ColoredSeekBar extends AppCompatSeekBar {
 
         int tileSize = getResources().getInteger(R.integer.tileSize);
 
-        Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers),tileSize,tileSize,false);
+        Bitmap bitmap =  BitmapFactory.decodeResource(getResources(),R.drawable.checkers);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
