@@ -31,7 +31,7 @@ public class ColorPickerDialog extends AlertDialog {
     private OnColorPickedListener listener;
 
     // represents intern stocked color value as ARGB from 0 to MAX_ARGB_VALUE.
-    private int a=255, r=0, g=0, b=0;
+    private int a, r, g, b;
 
     ColorPickerDialog(Context context, OnColorPickedListener callback){
         super(context);
@@ -57,6 +57,8 @@ public class ColorPickerDialog extends AlertDialog {
 
     private void init(Context context){
 
+        // initialize firstColor
+        setColor(255,0,0,0);
         // Initialize dialog
         @SuppressLint("InflateParams") View v = LayoutInflater.from(context).inflate(R.layout.dialog_picker,null);
         setView(v);
@@ -81,9 +83,6 @@ public class ColorPickerDialog extends AlertDialog {
         //                    programmer then it will need these lines )
         seekSV.setMaxX(MAX_SV_VALUE);
         seekSV.setMaxY(MAX_SV_VALUE);
-
-        // Exemple pour afficher un gradient SV centré sur du rouge pur.
-        //saturationValueGradient.setColor(Color.RED);
 
         //Les seekBar R,G,B
         seekH = v.findViewById(R.id.seekH);
@@ -142,14 +141,14 @@ public class ColorPickerDialog extends AlertDialog {
         seekR.updateColor(Color.rgb(0, RGBcolor[1], RGBcolor[2]), Color.rgb(MAX_ARGB_VALUE, RGBcolor[1], RGBcolor[2]));
         seekG.updateColor(Color.rgb(RGBcolor[0], 0, RGBcolor[2]), Color.rgb(RGBcolor[0], MAX_ARGB_VALUE, RGBcolor[2]));
         seekB.updateColor(Color.rgb(RGBcolor[0], RGBcolor[1], 0), Color.rgb(RGBcolor[0], RGBcolor[1], MAX_ARGB_VALUE));
-        seekA.updateBarreA(MAX_ARGB_VALUE,r,g,b);
+        seekA.updateBarreA(MAX_ARGB_VALUE,seekR.getProgress(),seekG.getProgress(),seekB.getProgress());
 
         setColor(Color.rgb(RGBcolor[0],RGBcolor[1],RGBcolor[2]));
     }
 
     private void updateHSV(){
 
-        int[] HSVcolor = RGBtoHSV(r,g,b);
+        int[] HSVcolor = RGBtoHSV(seekR.getProgress(),seekG.getProgress(),seekB.getProgress());
         seekSV.setPickedX(HSVcolor[1]);
         seekSV.setPickedY(HSVcolor[2]);
         if ( HSVcolor[0] < 0 ){
@@ -164,13 +163,20 @@ public class ColorPickerDialog extends AlertDialog {
 
         return Color.argb(a,r,g,b);
     }
-
+    // for initialisation
     public void setColor(@ColorInt int newColor){
 
         this.r = Color.red(newColor);
         this.g = Color.green(newColor);
         this.b = Color.blue(newColor);
 
+    }
+    // during program
+    public void setColor(int a, int r, int g, int b){
+        this.a = a;
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 
     //dans le plan cartesien ,  s=x  et v=y
@@ -273,28 +279,25 @@ public class ColorPickerDialog extends AlertDialog {
                 if (fromUser) {
                     switch (seekType) {
                         case ('R'):
-                            seekG.updateColor(Color.rgb(progress, 0, b), Color.rgb(progress, MAX_ARGB_VALUE, b));
-                            seekB.updateColor(Color.rgb(progress, g, 0), Color.rgb(progress, g, MAX_ARGB_VALUE));
-                            seekA.updateBarreA(MAX_ARGB_VALUE, progress, g, b);
-                            r = progress;
+                            seekG.updateColor(Color.rgb(progress, 0, seekB.getProgress()), Color.rgb(progress, MAX_ARGB_VALUE, seekB.getProgress()));
+                            seekB.updateColor(Color.rgb(progress, seekG.getProgress(), 0), Color.rgb(progress, seekG.getProgress(), MAX_ARGB_VALUE));
+                            seekA.updateBarreA(MAX_ARGB_VALUE, progress, seekG.getProgress(), seekB.getProgress());
                             updateHSV();
                             break;
                         case ('G'):
-                            seekR.updateColor(Color.rgb(0, progress, b), Color.rgb(MAX_ARGB_VALUE, progress, b));
-                            seekB.updateColor(Color.rgb(r, progress, 0), Color.rgb(r, progress, MAX_ARGB_VALUE));
-                            seekA.updateBarreA(MAX_ARGB_VALUE, r, progress, b);
-                            g = progress;
+                            seekR.updateColor(Color.rgb(0, progress, seekB.getProgress()), Color.rgb(MAX_ARGB_VALUE, progress, seekB.getProgress()));
+                            seekB.updateColor(Color.rgb(seekR.getProgress(), progress, 0), Color.rgb(seekR.getProgress(), progress, MAX_ARGB_VALUE));
+                            seekA.updateBarreA(MAX_ARGB_VALUE, seekR.getProgress(), progress, seekB.getProgress());
                             updateHSV();
                             break;
                         case ('B'):
-                            seekR.updateColor(Color.rgb(0, g, progress), Color.rgb(MAX_ARGB_VALUE, g, progress));
-                            seekG.updateColor(Color.rgb(r, 0, progress), Color.rgb(r, MAX_ARGB_VALUE, progress));
-                            seekA.updateBarreA(MAX_ARGB_VALUE, r, g, progress);
-                            b = progress;
+                            seekR.updateColor(Color.rgb(0, seekG.getProgress(), progress), Color.rgb(MAX_ARGB_VALUE, seekG.getProgress(), progress));
+                            seekG.updateColor(Color.rgb(seekR.getProgress(), 0, progress), Color.rgb(seekR.getProgress(), MAX_ARGB_VALUE, progress));
+                            seekA.updateBarreA(MAX_ARGB_VALUE, seekR.getProgress(), seekG.getProgress(), progress);
                             updateHSV();
                             break;
                         case ('A'):
-                            a = progress;
+                            // nothing
                             break;
                         case ('H'):
                             updateSeekBarsColors();
@@ -306,7 +309,9 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                setColor(seekA.getProgress(),seekR.getProgress(), seekG.getProgress(), seekB.getProgress());
+            }
         };
     }
 
