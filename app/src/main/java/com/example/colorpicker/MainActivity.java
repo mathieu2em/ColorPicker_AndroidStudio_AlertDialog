@@ -45,7 +45,7 @@ MainActivity extends AppCompatActivity {
         drawables[0] = bitmapDrawable;
         drawables[1] = new ColorDrawable(color);
 
-        //convertis le tableau en layerDrawables.
+        //convert the Drawable array into LayerDrawable and insert it as a background
         LayerDrawable layerDrawable = new LayerDrawable(drawables);
         findViewById(R.id.picked_color).setBackgroundDrawable(layerDrawable);
     }
