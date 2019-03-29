@@ -56,20 +56,19 @@ public class ColorPickerDialog extends AlertDialog {
     }
 
     private void init(Context context){
-        /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
 
         // Initialize dialog
         @SuppressLint("InflateParams") View v = LayoutInflater.from(context).inflate(R.layout.dialog_picker,null);
         setView(v);
 
-        // Initialiser un titre
+        // title initialization
         setTitle(R.string.pick_color);
 
-        //Initialiser les boutons
-        // le button_negative represente le cancel
+        // init buttons
+        // button negative => cancel button
         setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> { });
 
-        // button positive veut dire le ok
+        // button positive means the ok button
         setButton(BUTTON_POSITIVE, "ok", (dialog, which) ->
                 listener.onColorPicked(this, getColor()));
 

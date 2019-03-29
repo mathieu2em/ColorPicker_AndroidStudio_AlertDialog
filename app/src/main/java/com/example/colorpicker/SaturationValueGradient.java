@@ -28,7 +28,7 @@ public class SaturationValueGradient extends LayerDrawable {
         return new GradientDrawable[]{saturationGradient, valueGradient};
     }
 
-    public SaturationValueGradient() {
+    SaturationValueGradient() {
         super(prepareLayers());
         saturationGradient = (GradientDrawable)this.getDrawable(0);
     }
