@@ -1,10 +1,10 @@
 package com.example.colorpicker;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
@@ -19,7 +19,7 @@ public class ColorPickerDialog extends AlertDialog {
     private final static int MAX_H_VALUE = 360;
     //section HSV
     private AreaPicker seekSV;
-    private static ColoredSeekBar seekH;
+    private ColoredSeekBar seekH;
     // section RGBA
     private ColoredSeekBar seekR;
     private ColoredSeekBar seekG;
@@ -59,7 +59,7 @@ public class ColorPickerDialog extends AlertDialog {
         /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
 
         // Initialize dialog
-        View v = LayoutInflater.from(context).inflate(R.layout.dialog_picker,null);
+        @SuppressLint("InflateParams") View v = LayoutInflater.from(context).inflate(R.layout.dialog_picker,null);
         setView(v);
 
         // Initialiser un titre
@@ -132,10 +132,10 @@ public class ColorPickerDialog extends AlertDialog {
     // cette methode update les couleurs des trois seekbars selon leur valeur actuelle
     private void updateSeekBarsColors(){
 
-        // on store la conversion des valeurs de HSV modifiees et converties
+        // storing HSVtoRGB conversion
         int[] RGBcolor = HSVtoRGB( seekH.getProgress(), seekSV.getPickedX(), MAX_SV_VALUE-seekSV.getPickedY() );
 
-        //on ajuste la couleur de R G et B conjointement
+        // adjusting seekBars values
         seekR.setProgress(RGBcolor[0]);
         seekG.setProgress(RGBcolor[1]);
         seekB.setProgress(RGBcolor[2]);
@@ -146,33 +146,28 @@ public class ColorPickerDialog extends AlertDialog {
         seekA.updateBarreA(MAX_ARGB_VALUE,r,g,b);
 
         setColor(Color.rgb(RGBcolor[0],RGBcolor[1],RGBcolor[2]));
-        Log.i("RGB", RGBcolor[0] + "," + RGBcolor[1] + "," + RGBcolor[2]);
     }
 
     private void updateHSV(){
 
         int[] HSVcolor = RGBtoHSV(r,g,b);
-        seekH.setProgress(HSVcolor[0]);
         seekSV.setPickedX(HSVcolor[1]);
         seekSV.setPickedY(HSVcolor[2]);
-        saturationValueGradient.setColor(Color.HSVToColor(new float[]{ HSVcolor[0], 1, 1}));
-        //Log.i(tag, message)
-        System.out.println(HSVcolor[0]+ " . " + HSVcolor[1] + " . " + HSVcolor[2]);
-        Log.i("RGB", r+ " , " + g + " , " + b );
+        if ( HSVcolor[0] < 0 ){
+            saturationValueGradient.setColor(Color.HSVToColor(new float[]{ seekH.getProgress(), 1, 1}));
+        } else {
+            saturationValueGradient.setColor(Color.HSVToColor(new float[]{ HSVcolor[0], 1, 1}));
+            seekH.setProgress(HSVcolor[0]);
+        }
     }
 
     @ColorInt int getColor(){
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit retourner la couleur présentement sélectionnée par le dialog.
-         * */
+
         return Color.argb(a,r,g,b);
     }
 
     public void setColor(@ColorInt int newColor){
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit mettre à jour l'état du dialog pour que la couleur sélectionnée
-         * corresponde à "newColor".
-         * */
+
         this.r = Color.red(newColor);
         this.g = Color.green(newColor);
         this.b = Color.blue(newColor);
@@ -236,11 +231,11 @@ public class ColorPickerDialog extends AlertDialog {
         double delta = CMax - CMin;
 
         // fix pour les valeurs impossibles
-        if (delta == 0) {
-            if(r == 255) {
-                return new int[]{seekH.getProgress(),0,100};
+        if ( delta == 0 ) {
+            if(r == 255 || g == 255 || b == 255) {
+                return new int[]{ -1, 0, 100 };
             } else {
-                return new int[]{seekH.getProgress(),0,0 };
+                return new int[]{ -1, 0, 0 };
             }
         }
 

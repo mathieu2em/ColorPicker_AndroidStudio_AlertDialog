@@ -32,18 +32,19 @@ MainActivity extends AppCompatActivity {
     // this method works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
     private void setPickedColor(int color){
 
+        // creates the bitmap drawable containing the bitmap image
         BitmapDrawable bitmapDrawable = new BitmapDrawable( getResources(),
                 BitmapFactory.decodeResource(getResources(),R.drawable.checkers));
 
+        // this method is necessary if we want the good image size and tiled mode
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
-        // plug les deux dans un tableau
+        // plug both Drawables in an array
         Drawable[] drawables = new Drawable[2];
         drawables[0] = bitmapDrawable;
         drawables[1] = new ColorDrawable(color);
 
         //convert the Drawable array into LayerDrawable and insert it as a background
-        LayerDrawable layerDrawable = new LayerDrawable(drawables);
-        findViewById(R.id.picked_color).setBackground(layerDrawable);
+        findViewById(R.id.picked_color).setBackground(new LayerDrawable(drawables));
     }
 }
