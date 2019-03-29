@@ -5,6 +5,5 @@
 
     <string name="hsv">HSV</string>
     <string name="rgb">RGB</string>
-    <string name="alpha">Alpha</string>
     <string name="Alpha">Alpha</string>
 </resources>
