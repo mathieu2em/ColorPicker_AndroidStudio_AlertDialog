@@ -11,9 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.SeekBar;
-
-import com.example.colorpicker.ColorPickerDialog;
 import com.example.colorpicker.R;
 
 
@@ -25,8 +22,9 @@ public class AreaPicker extends View {
     private Paint thumb_paint;
 
     private float x, y;
-    private int maxX = ColorPickerDialog.getMaxSvValue();//TODO LES ENFANTS CONNAISSENT PAS LEURS PARENTS TABARNAK
-    private int maxY = ColorPickerDialog.getMaxSvValue();
+    // this is the default value but can be changed using setMaxX and setMaxY
+    private int maxX=100;
+    private int maxY=100;
 
     public AreaPicker(Context context) {
         super(context);
@@ -65,12 +63,10 @@ public class AreaPicker extends View {
 
     }
 
-    @SuppressLint("NewApi")
     public void setInsetDrawable(Drawable dr){
         backgroundDrawable.setDrawable(dr);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) {

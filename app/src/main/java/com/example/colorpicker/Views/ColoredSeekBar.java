@@ -40,21 +40,7 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         setOnSeekBarChangeListener(listener);
     }
 
-    // utile pour les valeurs initiales
-    public void updateColor(int couleur){
-        //int progress = getProgress();
-        //gd.setColor(Color.rgb(progress, progress, progress));
-        //Couleur en gradiant
-        int[] colorsR = {Color.BLACK, couleur};
-
-        //Met le gradiant dans le seekBar
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
-        setProgressDrawable(gd);
-    }
-
-    // S'applique aux cas RGB ET A
-    // pour Alpha, nous aurions pu faire une methode avec un seul parametre, mais nous avons choisis , du fait
-    // que cette methode fonctionne aussi pour Alpha avec les bons parametres , de ne pas creer une methode supplementaire.
+    // applie to RGB cases
     public void updateColor(int couleur1, int couleur2){
 
         //Couleur en gradiant

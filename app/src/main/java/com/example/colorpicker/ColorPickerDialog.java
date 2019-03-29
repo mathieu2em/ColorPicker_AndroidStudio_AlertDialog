@@ -27,13 +27,20 @@ public class ColorPickerDialog extends AlertDialog {
     private ColoredSeekBar seekA;
 
     private SaturationValueGradient saturationValueGradient;
+    // listener for ok
     private OnColorPickedListener listener;
 
-    // Représentation/stockage interne de la couleur présentement sélectionnée par le Dialog.
+    // represents intern stocked color value as ARGB from 0 to MAX_ARGB_VALUE.
     private int a=255, r=0, g=0, b=0;
 
     ColorPickerDialog(Context context, OnColorPickedListener callback){
         super(context);
+        init(context);
+        setOnColorPickedListener(callback);
+    }
+    // for if the user want to set an OnCancelLister and a OnColorPickedListener
+    ColorPickerDialog(Context context, boolean cancelable, OnCancelListener cancelListener, OnColorPickedListener callback) {
+        super(context, cancelable, cancelListener);
         init(context);
         setOnColorPickedListener(callback);
     }
@@ -71,6 +78,11 @@ public class ColorPickerDialog extends AlertDialog {
         saturationValueGradient = new SaturationValueGradient();
         seekSV.setInsetDrawable(saturationValueGradient);
 
+        // set maxSV values ( already 100 by default but if it is changed by another
+        //                    programmer then it will need these lines )
+        seekSV.setMaxX(MAX_SV_VALUE);
+        seekSV.setMaxY(MAX_SV_VALUE);
+
         // Exemple pour afficher un gradient SV centré sur du rouge pur.
         //saturationValueGradient.setColor(Color.RED);
 
@@ -83,14 +95,6 @@ public class ColorPickerDialog extends AlertDialog {
 
         // seekH gradient setting
         seekH.setBarreH(MAX_H_VALUE);
-
-        // seekA gradient setting
-        seekA.updateBarreA(MAX_ARGB_VALUE,r,g,b);
-
-        // seekbar Gradients
-        seekR.updateColor(Color.RED);
-        seekG.updateColor(Color.GREEN);
-        seekB.updateColor(Color.BLUE);
 
         // setting maximal values of differents seekRGBs
         seekR.setMax(MAX_ARGB_VALUE);
@@ -310,10 +314,6 @@ public class ColorPickerDialog extends AlertDialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         };
-    }
-
-    public static int getMaxSvValue(){
-        return MAX_SV_VALUE;
     }
 
     public interface OnColorPickedListener{

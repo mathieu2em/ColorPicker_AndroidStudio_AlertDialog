@@ -25,7 +25,7 @@ MainActivity extends AppCompatActivity {
         findViewById(R.id.picked_color).setBackgroundColor(Color.BLACK);
 
         dialog = new ColorPickerDialog(this, (colorPickerDialog, color) ->
-            setPickedColor(dialog.getColor()));
+                setPickedColor(dialog.getColor()));
 
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
@@ -37,7 +37,7 @@ MainActivity extends AppCompatActivity {
         int tileSize = getResources().getInteger(R.integer.tileSize);
         // hacky method to make the image the correct size
         Bitmap bitmap =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.checkers), tileSize,tileSize ,false);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable( getResources(), bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
 
         // plug les deux dans un tableau
@@ -47,6 +47,6 @@ MainActivity extends AppCompatActivity {
 
         //convert the Drawable array into LayerDrawable and insert it as a background
         LayerDrawable layerDrawable = new LayerDrawable(drawables);
-        findViewById(R.id.picked_color).setBackgroundDrawable(layerDrawable);
+        findViewById(R.id.picked_color).setBackground(layerDrawable);
     }
 }
