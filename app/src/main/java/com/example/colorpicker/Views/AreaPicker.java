@@ -92,7 +92,7 @@ public class AreaPicker extends View {
     }
 
     public void setPickedX(float newX){ x = (newX/maxX); }
-
+    // 1 - to have the right position
     public void setPickedY(float newY){ y = 1-(newY/maxY); }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée

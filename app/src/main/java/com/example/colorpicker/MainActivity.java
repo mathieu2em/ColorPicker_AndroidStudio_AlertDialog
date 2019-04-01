@@ -29,7 +29,7 @@ MainActivity extends AppCompatActivity {
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
     }
 
-    // this method works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
+    //works with two Drawables that forms a LayerDrawable . ( one bitmap and one color)
     private void setPickedColor(int color){
 
         // creates the bitmap drawable containing the bitmap image

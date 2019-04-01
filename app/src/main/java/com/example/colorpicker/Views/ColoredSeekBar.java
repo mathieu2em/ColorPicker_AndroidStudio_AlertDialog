@@ -11,7 +11,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.AttributeSet;
-
 import com.example.colorpicker.R;
 
 public class ColoredSeekBar extends AppCompatSeekBar {
