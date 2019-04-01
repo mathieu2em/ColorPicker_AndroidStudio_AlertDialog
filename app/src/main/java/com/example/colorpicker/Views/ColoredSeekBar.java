@@ -33,7 +33,7 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         setOnSeekBarChangeListener(listener);
     }
 
-    // applie to RGB cases
+    // applies to ARGB cases
     public void updateColor(int couleur1, int couleur2){
 
         // color in gradient
