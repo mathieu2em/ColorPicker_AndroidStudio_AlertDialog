@@ -44,7 +44,7 @@ public class ColorPickerDialog extends AlertDialog {
         init(context);
         setOnColorPickedListener(callback);
     }
-
+    // if there is only a cancelListener
     ColorPickerDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         init(context);
@@ -70,7 +70,7 @@ public class ColorPickerDialog extends AlertDialog {
         // button negative => cancel button
         setButton(BUTTON_NEGATIVE, "cancel", (dialog, which) -> { });
 
-        // button positive means the ok button
+        // button positive => ok button
         setButton(BUTTON_POSITIVE, "ok", (dialog, which) ->
                 listener.onColorPicked(this, getColor()));
 
@@ -115,19 +115,19 @@ public class ColorPickerDialog extends AlertDialog {
             }
         });
 
-        // ici, on set la position initiale a noire.
+        // setting initial position to black
         seekSV.setPickedX(0);
         seekSV.setPickedY(0);
 
-        //couleur initiale a rouge
+        // init color to red
         seekH.setProgress(0);
-
+        // make sure seekBars have te right color and cursor positions
         updateSeekBarsColors();
         updateHSV();
 
     }
 
-    // cette methode update les couleurs des trois seekbars selon leur valeur actuelle
+    // update intern colors and thumbs positions of seekbarsRGBA according to HSV values
     private void updateSeekBarsColors(){
 
         // storing HSVtoRGB conversion
@@ -145,7 +145,7 @@ public class ColorPickerDialog extends AlertDialog {
 
         setColor(Color.rgb(RGBcolor[0],RGBcolor[1],RGBcolor[2]));
     }
-
+    // updates intern colors of HSV according to RGB seekbars progress values
     private void updateHSV(){
 
         int[] HSVcolor = RGBtoHSV(seekR.getProgress(),seekG.getProgress(),seekB.getProgress());
@@ -158,12 +158,12 @@ public class ColorPickerDialog extends AlertDialog {
             seekH.setProgress(HSVcolor[0]);
         }
     }
-
+    // returns the color stored internally
     @ColorInt int getColor(){
 
         return Color.argb(a,r,g,b);
     }
-    // for initialisation
+    // for initialisation of the program
     public void setColor(@ColorInt int newColor){
 
         this.r = Color.red(newColor);
@@ -171,7 +171,7 @@ public class ColorPickerDialog extends AlertDialog {
         this.b = Color.blue(newColor);
 
     }
-    // during program
+    // during program it sets the intern value to these settings
     public void setColor(int a, int r, int g, int b){
         this.a = a;
         this.r = r;
@@ -179,7 +179,7 @@ public class ColorPickerDialog extends AlertDialog {
         this.b = b;
     }
 
-    //dans le plan cartesien ,  s=x  et v=y
+    //returns an array of the conversion of RGB into HSV ; [h,s,v] => [r,g,b}
     static private int[] HSVtoRGB(double h, double s, double v){
 
         double HPrime = h / 60.0;
@@ -228,7 +228,7 @@ public class ColorPickerDialog extends AlertDialog {
 
         return RGB;
     }
-
+    // returns the conversion of [r,g,b] to [h,s,v] in an array
     static private int[] RGBtoHSV(double r, double g, double b) {
 
         double CMax = Math.max(Math.max(r, g), b);
@@ -267,11 +267,11 @@ public class ColorPickerDialog extends AlertDialog {
 
         return HSV;
     }
-
+    // set the listener activated when ok is clicked
     private void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
         listener = onColorPickedListener;
     }
-
+    // this method creates a general listener that can be user by every seekbars in the program
     private SeekBar.OnSeekBarChangeListener setSeekBarListener(char seekType){
         return new SeekBar.OnSeekBarChangeListener() {
             @Override
