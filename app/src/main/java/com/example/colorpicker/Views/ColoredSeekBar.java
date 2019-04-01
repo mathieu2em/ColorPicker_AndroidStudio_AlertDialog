@@ -62,8 +62,6 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         // set the gradient
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colorsR);
 
-        int tileSize = getResources().getInteger(R.integer.tileSize);
-
         Bitmap bitmap =  BitmapFactory.decodeResource(getResources(),R.drawable.checkers);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),bitmap);
         bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT,Shader.TileMode.REPEAT);
@@ -77,5 +75,4 @@ public class ColoredSeekBar extends AppCompatSeekBar {
         LayerDrawable layerDrawable = new LayerDrawable(drawables);
         setProgressDrawable(layerDrawable);
     }
-
 }
